@@ -112,6 +112,8 @@
         } else {
           item.amount -= num;
         }
+        localStorage.setItem("items", JSON.stringify(this.itemsList));
+
         document.querySelectorAll('.item').forEach((e) => {
           e.classList.remove('item_active');
         });
@@ -122,6 +124,8 @@
         if (this.isPopupOpen) {
           this.closePopup();
         }
+
+        localStorage.setItem("items", JSON.stringify(this.itemsList));
       },
       onDrop(evt, location) {
         let itemLocation = JSON.parse(evt.dataTransfer.getData('itemLocation'));
@@ -133,10 +137,18 @@
             if (i.location === itemLocation) {
               i.location = location;
             }
-          })
+          });
+
+          localStorage.setItem("items", JSON.stringify(this.itemsList));
         }
       }
-    }
+    },
+    beforeMount() {
+      const itemsArr = localStorage.getItem("items")
+      if (itemsArr) {
+        this.itemsList = JSON.parse(itemsArr)
+      }
+    },
   }
 </script>
 
