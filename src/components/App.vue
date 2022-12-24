@@ -17,7 +17,7 @@
         <li class="grid__item" v-for="i in 25" :key="i" @click="handleItemClick($event, i)" @drop="onDrop($event, i)"
           @dragover.prevent @dragenter.prevent>
           <div class="item" v-if="findItem(i)">
-            <div class="item__img-container" :draggable="true" @dragstart="onDragStart($event, findItem(i))">
+            <div class=" item__img-container" :draggable="true" @dragstart="onDragStart($event, findItem(i))">
               <div class="item__back-one" :style="{background: findItem(i).colors[0]}" />
               <div class="item__back-two" :style="{background: findItem(i).colors[1]}" />
             </div>
@@ -66,17 +66,24 @@
     },
     methods: {
       handleItemClick(evt, id) {
+        document.querySelectorAll('.item').forEach((e) => {
+          e.classList.remove('item_active');
+        });
         const el = evt.currentTarget.querySelector('.item');
 
         if (el !== null) {
           if (this.isPopupOpen) {
             this.closePopup();
+            el.classList.remove('item_active');
             setTimeout(() => {
+              el.classList.add('item_active');
               this.openPopup();
-            }, 500)
+            }, 500);
           } else {
+            el.classList.add('item_active');
             this.openPopup();
           }
+
           this.currentElement = this.itemsList.find((i) => i.location === id);
         } else {
           this.closePopup();
@@ -225,6 +232,10 @@
     position: relative;
     width: 105px;
     height: 100px;
+  }
+
+  .item_active {
+    background: #2F2F2F;
   }
 
   .item__img-container {
