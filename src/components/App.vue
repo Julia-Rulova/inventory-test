@@ -17,7 +17,7 @@
         <li class="grid__item" v-for="i in 25" :key="i" @click="handleItemClick($event, i)" @drop="onDrop($event, i)"
           @dragover.prevent @dragenter.prevent>
           <div class="item" v-if="findItem(i)">
-            <div class=" item__img-container" :draggable="true" @dragstart="onDragStart($event, findItem(i))">
+            <div :draggable="true" @dragstart="onDragStart($event, findItem(i))">
               <div class="item__back-one" :style="{background: findItem(i).colors[0]}" />
               <div class="item__back-two" :style="{background: findItem(i).colors[1]}" />
             </div>
@@ -112,6 +112,9 @@
         } else {
           item.amount -= num;
         }
+        document.querySelectorAll('.item').forEach((e) => {
+          e.classList.remove('item_active');
+        });
       },
       onDragStart(evt, item) {
         evt.dataTransfer.setData('itemLocation', JSON.stringify(item.location));
@@ -236,11 +239,6 @@
 
   .item_active {
     background: #2F2F2F;
-  }
-
-  .item__img-container {
-    width: 100%;
-    height: 100%;
   }
 
   .item__back-one {
